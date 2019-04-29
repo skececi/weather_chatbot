@@ -1,7 +1,6 @@
 import sys, json, requests
 from flask import Flask, request
 import pyowm
-import config
 
 try:
     import apiai
@@ -13,11 +12,10 @@ except ImportError:
 
 app = Flask(__name__)
 
-PAT = config.PAT
-
-CLIENT_ACCESS_TOKEN = config.CLIENT_ACCESS_TOKEN
-
-VERIFY_TOKEN = config.VERIFY_TOKEN
+PAT = os.environ['PAGE_ACCESS_TOKEN']
+CLIENT_ACCESS_TOKEN = os.environ['CLIENT_ACCESS_TOKEN']
+VERIFY_TOKEN = os.environ['VERIFY_TOKEN']
+OWM_KEY = os.environ['OWM_KEY']
 
 ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
 
@@ -94,7 +92,7 @@ def parse_user_message(user_text):
             input_city = response['result']['parameters']['geo-city']
             print("City ", input_city)
 
-            owm = pyowm.OWM(config.OWM_KEY)  # You MUST provide a valid API key
+            owm = pyowm.OWM(OWM_KEY)  # You MUST provide a valid API key
 
             forecast = owm.daily_forecast(input_city)
 
