@@ -23,7 +23,6 @@ ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
 
 @app.route('/', methods=['GET'])
 def handle_verification():
-    return 'Hello!'
     '''
     Verifies facebook webhook subscription
     Successful when verify_token is same as token sent by facebook app
