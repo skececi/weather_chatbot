@@ -93,18 +93,18 @@ def parse_user_message(user_text):
             #Using open weather map client to fetch the weather report
             weather_report = ''
 
-            input_city = response['result']['parameters']['geo-city']
-            print("City ", input_city)
+            # input_city = response['result']['parameters']['geo-city']
+            input_city = 'London,uk'
+            print("City", input_city)
 
             owm = pyowm.OWM(os.environ['OWM_KEY'])  # You MUST provide a valid API key
 
             print('api init')
-            print(input_city)
-            input_city = input_city.strip()
-            print(input_city)
-            
+
             forecast = owm.daily_forecast(input_city)
+            print('a')
             observation = owm.weather_at_place(input_city)
+            print('a')
             w = observation.get_weather()
             print(w)
             print(w.get_wind())
