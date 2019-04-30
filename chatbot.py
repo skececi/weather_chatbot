@@ -99,6 +99,9 @@ def parse_user_message(user_text):
             owm = pyowm.OWM(os.environ['OWM_KEY'])  # You MUST provide a valid API key
 
             print('api init')
+            print(input_city)
+            input_city = input_city.strip()
+            print(input_city)
             
             forecast = owm.daily_forecast(input_city)
             observation = owm.weather_at_place(input_city)
