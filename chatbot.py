@@ -91,33 +91,35 @@ def parse_user_message(user_text):
         print("API AI response", response['result']['fulfillment']['speech'])
         try:
             #Using open weather map client to fetch the weather report
-            weather_report = ''
+            weather_report = 'partly cloudy and 55 degrees'
+            if response['result']['parameters']['geo-city'] is None:
+                return (response['result']['fulfillment']['speech'])
+            else:
+                return (response['result']['fulfillment']['speech']) + weather_report
 
             # input_city = response['result']['parameters']['geo-city']
-            input_city = 'London,uk'
-            print("City", input_city)
+            # print("City", input_city)
+            #
+            # owm = pyowm.OWM(os.environ['OWM_KEY'])  # You MUST provide a valid API key
+            #
+            # print('api init')
 
-            owm = pyowm.OWM(os.environ['OWM_KEY'])  # You MUST provide a valid API key
-
-            print('api init')
-
-            forecast = owm.daily_forecast(input_city)
-            print('a')
-            observation = owm.weather_at_place(input_city)
-            print('a')
-            w = observation.get_weather()
-            print(w)
-            print(w.get_wind())
-            print(w.get_humidity())
-            max_temp = str(w.get_temperature('celsius')['temp_max'])
-            min_temp = str(w.get_temperature('celsius')['temp_min'])
-            current_temp = str(w.get_temperature('celsius')['temp'])
-            wind_speed = str(w.get_wind()['speed'])
-            humidity = str(w.get_humidity())
-
-            weather_report = ' max temp: ' + max_temp + ' min temp: ' + min_temp + ' current temp: ' + current_temp + ' wind speed :' + wind_speed + ' humidity ' + humidity + '%'
-            print("Weather report ", weather_report)
-            weather_report = ''
+            # forecast = owm.daily_forecast(input_city)
+            # print('a')
+            # observation = owm.weather_at_place(input_city)
+            # print('a')
+            # w = observation.get_weather()
+            # print(w)
+            # print(w.get_wind())
+            # print(w.get_humidity())
+            # max_temp = str(w.get_temperature('celsius')['temp_max'])
+            # min_temp = str(w.get_temperature('celsius')['temp_min'])
+            # current_temp = str(w.get_temperature('celsius')['temp'])
+            # wind_speed = str(w.get_wind()['speed'])
+            # humidity = str(w.get_humidity())
+            #
+            # weather_report = ' max temp: ' + max_temp + ' min temp: ' + min_temp + ' current temp: ' + current_temp + ' wind speed :' + wind_speed + ' humidity ' + humidity + '%'
+            # print("Weather report ", weather_report)
             return (response['result']['fulfillment']['speech'] + weather_report)
         except:
             return (response['result']['fulfillment']['speech'])
