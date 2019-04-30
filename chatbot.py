@@ -98,8 +98,9 @@ def parse_user_message(user_text):
 
             owm = pyowm.OWM(os.environ['OWM_KEY'])  # You MUST provide a valid API key
 
+            print('api init')
+            
             forecast = owm.daily_forecast(input_city)
-
             observation = owm.weather_at_place(input_city)
             w = observation.get_weather()
             print(w)
@@ -113,7 +114,7 @@ def parse_user_message(user_text):
 
             weather_report = ' max temp: ' + max_temp + ' min temp: ' + min_temp + ' current temp: ' + current_temp + ' wind speed :' + wind_speed + ' humidity ' + humidity + '%'
             print("Weather report ", weather_report)
-
+            weather_report = ''
             return (response['result']['fulfillment']['speech'] + weather_report)
         except:
             return (response['result']['fulfillment']['speech'])
