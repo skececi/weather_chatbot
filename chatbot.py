@@ -91,12 +91,12 @@ def parse_user_message(user_text):
         print("API AI response", response['result']['fulfillment']['speech'])
         try:
             #Using open weather map client to fetch the weather report
-            weather_report = 'testing the weather asdas'
+            weather_report = ''
 
             input_city = response['result']['parameters']['geo-city']
             print("City ", input_city)
 
-            owm = pyowm.OWM(OWM_KEY)  # You MUST provide a valid API key
+            owm = pyowm.OWM(os.environ['OWM_KEY'])  # You MUST provide a valid API key
 
             forecast = owm.daily_forecast(input_city)
 
@@ -116,7 +116,7 @@ def parse_user_message(user_text):
 
             return (response['result']['fulfillment']['speech'] + weather_report)
         except:
-            return (response['result']['fulfillment']['speech'] + 'Partly cloudy and 55 degrees')
+            return (response['result']['fulfillment']['speech'])
 
     else:
         return ("Sorry, I couldn't understand that question")
