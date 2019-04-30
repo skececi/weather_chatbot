@@ -91,7 +91,7 @@ def parse_user_message(user_text):
         print("API AI response", response['result']['fulfillment']['speech'])
         try:
             #Using open weather map client to fetch the weather report
-            weather_report = ''
+            weather_report = 'testing the weather asdas'
 
             input_city = response['result']['parameters']['geo-city']
             print("City ", input_city)
@@ -116,7 +116,7 @@ def parse_user_message(user_text):
 
             return (response['result']['fulfillment']['speech'] + weather_report)
         except:
-            return (response['result']['fulfillment']['speech'])
+            return (response['result']['fulfillment']['speech'] + 'Partly cloudy and 55 degrees')
 
     else:
         return ("Sorry, I couldn't understand that question")
