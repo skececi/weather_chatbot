@@ -110,7 +110,7 @@ def parse_user_message(user_text):
             name = r.json()['name']
             fahr = r.json()['main']['temp']
             weather_r = r.json()['weather'][0]['main']
-            return (response['result']['fulfillment']['speech'] + str(fahr) + weather_r
+            return (response['result']['fulfillment']['speech'] + str(fahr)
         except:
             return (response['result']['fulfillment']['speech'])
     else:
