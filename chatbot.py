@@ -120,11 +120,11 @@ def parse_user_message(user_text):
 
 def send_message_response(sender_id, message_text):
 
-    sentenceDelimiter = ". "
-    messages = message_text.split(sentenceDelimiter)
+    # sentenceDelimiter = ". "
+    # messages = message_text.split(sentenceDelimiter)
 
-    for message in messages:
-        send_message(sender_id, message)
+    # for message in messages:
+    send_message(sender_id, message_text)
 
 if __name__ == '__main__':
     app.run()
