@@ -82,6 +82,7 @@ def parse_user_message(user_text):
     request.query = user_text
     response = json.loads(request.getresponse().read().decode('utf-8'))
     responseStatus = response['status']['code']
+    print('Response: \n ' + response)
     if (responseStatus == 200):
         print("API AI response", response['result']['fulfillment']['speech'])
         try:
@@ -110,6 +111,15 @@ def parse_user_message(user_text):
                 weather = r.json()['weather'][0]['main']
 
                 return (response['result']['fulfillment']['speech'] + " " + str(fahr) + " degrees and " + weather)
+                
+            if 'geo-country' in response['result']['parameters']:
+                country = event["currentIntent"]["slots"]["Country"].title()
+                endpoint = "https://restcountries.eu/rest/v2/name/" + country
+                my_request = requests.get(endpoint)
+                pop = my_request.json()[0]['population']
+                return (response['result']['fulfillment']['speech'] + pop)
+            else:
+                return (response['result']['fulfillment']['speech'])
 
         except:
             return (response['result']['fulfillment']['speech'])
