@@ -128,7 +128,7 @@ def parse_user_message(user_text):
                 if len(languages) == 1:
                     return (response['result']['fulfillment']['speech'] + ' ' + languages[0]['name'])
                 else:
-                    resp = ''
+                    resp = ' '
                     for i in range(len(languages)):
                         if i != len(languages) - 1:
                             resp += (languages[i]['name'] + ', ')
