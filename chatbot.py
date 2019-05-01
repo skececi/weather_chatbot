@@ -85,11 +85,11 @@ def parse_user_message(user_text):
     if (responseStatus == 200):
         print("API AI response", response['result']['fulfillment']['speech'])
         try:
-            # Using open weather map client to fetch the weather report
+            #Using open weather map client to fetch the weather report
             weather_report = ''
             input_city = response['result']['parameters']['geo-city']
             print("City ", input_city)
-            owm = pyowm.OWM(os.environ['OWM_KEY'])  # You MUST provide a valid API key
+            owm = pyowm.OWM(OWM_KEY)  # You MUST provide a valid API key
             forecast = owm.daily_forecast(input_city)
             observation = owm.weather_at_place(input_city)
             w = observation.get_weather()
@@ -103,15 +103,7 @@ def parse_user_message(user_text):
             humidity = str(w.get_humidity())
             weather_report = ' max temp: ' + max_temp + ' min temp: ' + min_temp + ' current temp: ' + current_temp + ' wind speed :' + wind_speed + ' humidity ' + humidity + '%'
             print("Weather report ", weather_report)
-
-            # endpoint = "http://api.openweathermap.org/data/2.5/weather?q=" + input_city + "&appid=04e23b8bee0999c2ae5feb407bf67c70&units=imperial"
-            # print(endpoint)
-            # # TODO: replace with os.environ['OWM_KEY']
-            # r = requests.get(endpoint)
-            # name = r.json()['name']
-            # fahr = r.json()['main']['temp']
-            # weather_r = r.json()['weather'][0]['main']
-            return (response['result']['fulfillment']['speech'] + weather_report
+            return (response['result']['fulfillment']['speech'] + weather_report)
         except:
             return (response['result']['fulfillment']['speech'])
     else:
