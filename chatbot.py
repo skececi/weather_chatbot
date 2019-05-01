@@ -86,39 +86,54 @@ def parse_user_message(user_text):
 
     if (responseStatus == 200):
         print("API AI response", response['result']['fulfillment']['speech'])
+        intentname = response['result']['metadata']['intentname']
         try:
             #Using open weather map client to fetch the weather report
-            if 'geo-city' in response['result']['parameters']:
+            if intentname == 'weather':
                 input_city = response['result']['parameters']['geo-city']
-                # print("City ", input_city)
-                # owm = pyowm.OWM(OWM_KEY)  # You MUST provide a valid API key
-                # forecast = owm.daily_forecast(input_city)
-                # observation = owm.weather_at_place(input_city)
-                # w = observation.get_weather()
-                # print(w)
-                # print(w.get_wind())
-                # print(w.get_humidity())
-                # max_temp = str(w.get_temperature('celsius')['temp_max'])
-                # min_temp = str(w.get_temperature('celsius')['temp_min'])
-                # current_temp = str(w.get_temperature('celsius')['temp'])
-                # wind_speed = str(w.get_wind()['speed'])
-                # humidity = str(w.get_humidity())
-                # weather_report = ' max temp: ' + max_temp + ' min temp: ' + min_temp + ' current temp: ' + current_temp + ' wind speed :' + wind_speed + ' humidity ' + humidity + '%'
-                # print("Weather report ", weather_report)
-
                 r = requests.get("http://api.openweathermap.org/data/2.5/weather?q=" + input_city + "&appid=04e23b8bee0999c2ae5feb407bf67c70&units=imperial")
                 name = r.json()['name']
                 fahr = r.json()['main']['temp']
                 weather = r.json()['weather'][0]['main']
-
                 return (response['result']['fulfillment']['speech'] + " " + str(fahr) + " degrees and " + weather)
 
-            if 'geo-country' in response['result']['parameters']:
+            if intentname == 'population':
                 country = response['result']['parameters']['geo-country']
                 endpoint = "https://restcountries.eu/rest/v2/name/" + country
                 my_request = requests.get(endpoint)
                 pop = my_request.json()[0]['population']
                 return (response['result']['fulfillment']['speech'] + pop)
+
+            if intentname == 'currency':
+                country = response['result']['parameters']['geo-country']
+                endpoint = "https://restcountries.eu/rest/v2/name/" + country
+                my_request = requests.get(endpoint)
+                currency_name = my_request.json()[0]['currencies'][0]['name']
+                return (response['result']['fulfillment']['speech'] + currency_name)
+
+            if intentname == 'capital':
+                country = response['result']['parameters']['geo-country']
+                endpoint = "https://restcountries.eu/rest/v2/name/" + country
+                my_request = requests.get(endpoint)
+                capital = my_request.json()[0]['capital']
+                return (response['result']['fulfillment']['speech'] + capital)
+
+            if intentname == 'languages':
+                country = response['result']['parameters']['geo-country']
+                endpoint = "https://restcountries.eu/rest/v2/name/" + country
+                my_request = requests.get(endpoint)
+                languages = my_request.json()[0]['languages']
+                if len(languages) == 1:
+                    return (response['result']['fulfillment']['speech'] + languages[0]['name'])
+                else:
+                    resp = ''
+                    for i in range(len(languages)):
+                        if i != len(languages) - 1:
+                            resp += (languages[i]['name'] + ', ')
+                        else:
+                            resp += ('and ' + languages[i]['name'] + '.')
+                            return (response['result']['fulfillment']['speech'] + resp)
+
             else:
                 return (response['result']['fulfillment']['speech'])
 
