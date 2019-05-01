@@ -109,7 +109,7 @@ def parse_user_message(user_text):
             fahr = r.json()['main']['temp']
             weather = r.json()['weather'][0]['main']
 
-            return (response['result']['fulfillment']['speech'] + name)
+            return (response['result']['fulfillment']['speech'] + " " + str(fahr) + " degrees and " + weather)
         except:
             return (response['result']['fulfillment']['speech'])
     else:
