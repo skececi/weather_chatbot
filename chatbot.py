@@ -85,7 +85,7 @@ def parse_user_message(user_text):
     if (responseStatus == 200):
         print("API AI response", response['result']['fulfillment']['speech'])
         try:
-            Using open weather map client to fetch the weather report
+            # Using open weather map client to fetch the weather report
             weather_report = ''
             input_city = response['result']['parameters']['geo-city']
             print("City ", input_city)
