@@ -47,7 +47,6 @@ def handle_message():
         for entry in data["entry"]:
             for messaging_event in entry["messaging"]:
                 if messaging_event.get("message"):
-
                     sender_id = messaging_event["sender"]["id"]
                     recipient_id = messaging_event["recipient"]["id"]
                     message_text = messaging_event["message"]["text"]
@@ -87,24 +86,31 @@ def parse_user_message(user_text):
         print("API AI response", response['result']['fulfillment']['speech'])
         try:
             #Using open weather map client to fetch the weather report
-            weather_report = ''
+            # weather_report = ''
             input_city = response['result']['parameters']['geo-city']
-            print("City ", input_city)
-            owm = pyowm.OWM(os.environ['OWM_KEY'])  # You MUST provide a valid API key
-            forecast = owm.daily_forecast(input_city)
-            observation = owm.weather_at_place(input_city)
-            w = observation.get_weather()
-            print(w)
-            print(w.get_wind())
-            print(w.get_humidity())
-            max_temp = str(w.get_temperature('celsius')['temp_max'])
-            min_temp = str(w.get_temperature('celsius')['temp_min'])
-            current_temp = str(w.get_temperature('celsius')['temp'])
-            wind_speed = str(w.get_wind()['speed'])
-            humidity = str(w.get_humidity())
-            weather_report = ' max temp: ' + max_temp + ' min temp: ' + min_temp + ' current temp: ' + current_temp + ' wind speed :' + wind_speed + ' humidity ' + humidity + '%'
-            print("Weather report ", weather_report)
-            return (response['result']['fulfillment']['speech'] + weather_report)
+            # print("City ", input_city)
+            # owm = pyowm.OWM(os.environ['OWM_KEY'])  # You MUST provide a valid API key
+            # forecast = owm.daily_forecast(input_city)
+            # observation = owm.weather_at_place(input_city)
+            # w = observation.get_weather()
+            # print(w)
+            # print(w.get_wind())
+            # print(w.get_humidity())
+            # max_temp = str(w.get_temperature('celsius')['temp_max'])
+            # min_temp = str(w.get_temperature('celsius')['temp_min'])
+            # current_temp = str(w.get_temperature('celsius')['temp'])
+            # wind_speed = str(w.get_wind()['speed'])
+            # humidity = str(w.get_humidity())
+            # weather_report = ' max temp: ' + max_temp + ' min temp: ' + min_temp + ' current temp: ' + current_temp + ' wind speed :' + wind_speed + ' humidity ' + humidity + '%'
+            # print("Weather report ", weather_report)
+
+            endpoint = "http://api.openweathermap.org/data/2.5/weather?q=" + input_city + "&appid=04e23b8bee0999c2ae5feb407bf67c70&units=imperial"
+            # TODO: replace with os.environ['OWM_KEY']
+            r = requests.get(endpoint)
+            name = r.json()['name']
+            fahr = r.json()['main']['temp']
+            weather_r = r.json()['weather'][0]['main']
+            return (response['result']['fulfillment']['speech'] + str(fahr) + weather_r
         except:
             return (response['result']['fulfillment']['speech'])
     else:
