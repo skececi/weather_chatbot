@@ -86,7 +86,7 @@ def parse_user_message(user_text):
 
     if (responseStatus == 200):
         print("API AI response", response['result']['fulfillment']['speech'])
-        intentname = response['result']['metadata']['intentname']
+        intentname = response['result']['metadata']['intentName']
         try:
             #Using open weather map client to fetch the weather report
             if intentname == 'weather':
