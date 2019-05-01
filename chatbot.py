@@ -99,24 +99,26 @@ def parse_user_message(user_text):
 
             if intentname == 'population':
                 country = response['result']['parameters']['geo-country']
+                print(country)
                 endpoint = "https://restcountries.eu/rest/v2/name/" + country
                 my_request = requests.get(endpoint)
                 pop = my_request.json()[0]['population']
-                return (response['result']['fulfillment']['speech'] + pop)
+                print(pop)
+                return (response['result']['fulfillment']['speech'] + ' ' + str(pop))
 
             if intentname == 'currency':
                 country = response['result']['parameters']['geo-country']
                 endpoint = "https://restcountries.eu/rest/v2/name/" + country
                 my_request = requests.get(endpoint)
                 currency_name = my_request.json()[0]['currencies'][0]['name']
-                return (response['result']['fulfillment']['speech'] + currency_name)
+                return (response['result']['fulfillment']['speech'] + ' ' + currency_name)
 
             if intentname == 'capital':
                 country = response['result']['parameters']['geo-country']
                 endpoint = "https://restcountries.eu/rest/v2/name/" + country
                 my_request = requests.get(endpoint)
                 capital = my_request.json()[0]['capital']
-                return (response['result']['fulfillment']['speech'] + capital)
+                return (response['result']['fulfillment']['speech'] + ' ' + capital)
 
             if intentname == 'languages':
                 country = response['result']['parameters']['geo-country']
@@ -124,7 +126,7 @@ def parse_user_message(user_text):
                 my_request = requests.get(endpoint)
                 languages = my_request.json()[0]['languages']
                 if len(languages) == 1:
-                    return (response['result']['fulfillment']['speech'] + languages[0]['name'])
+                    return (response['result']['fulfillment']['speech'] + ' ' + languages[0]['name'])
                 else:
                     resp = ''
                     for i in range(len(languages)):
